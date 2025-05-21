@@ -55,37 +55,64 @@ export default function App() {
     }).format(value);
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '30px', fontFamily: 'sans-serif' }}>
-      <h1 style={{ textAlign: 'center', color: '#2b6cb0' }}>AI Call ROI Calculator</h1>
-      <p style={{ textAlign: 'center', color: '#4a5568' }}>
-        See how much revenue you're missing and the ROI of using our AI Answering Service.
-      </p>
+    <div className="max-w-4xl mx-auto px-4 py-8 font-sans">
+      <h1 className="text-3xl font-bold text-blue-800 text-center mb-4">AI Help Desk ROI Calculator</h1>
+      <p className="text-gray-600 text-center mb-8">Discover the revenue you’re missing from unanswered calls — and what it could mean for your business.</p>
 
-      <div style={{ background: '#ebf8ff', padding: '20px', borderRadius: '8px', marginTop: '30px' }}>
-        <h3>Enter Your Information:</h3>
-
-        <label>Missed Calls Per Week:</label>
-        <input type="number" value={missedCalls} onChange={e => setMissedCalls(+e.target.value)} />
-
-        <label>Average Value Per Customer ($):</label>
-        <input type="number" value={averageValue} onChange={e => setAverageValue(+e.target.value)} />
-
-        <label>Conversion Rate (% of answered calls that become customers):</label>
-        <input type="number" value={conversionRate} onChange={e => setConversionRate(+e.target.value)} />
-
-        <label>One-Time Setup Fee ($):</label>
-        <input type="number" value={setupFee} onChange={e => setSetupFee(+e.target.value)} />
+      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 className="text-xl font-semibold text-blue-700 mb-4">📊 Enter Your Info</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Missed Calls Per Week</label>
+            <input type="number" value={missedCalls} onChange={e => setMissedCalls(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Avg Value Per Customer ($)</label>
+            <input type="number" value={averageValue} onChange={e => setAverageValue(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Conversion Rate (%)</label>
+            <input type="number" value={conversionRate} onChange={e => setConversionRate(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">One-Time Setup Fee ($)</label>
+            <input type="number" value={setupFee} onChange={e => setSetupFee(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+          </div>
+        </div>
       </div>
 
-      <div style={{ marginTop: '30px' }}>
-        <h3>Results:</h3>
-        <p><strong>Monthly Missed Calls:</strong> {monthlyCallsMissed}</p>
-        <p><strong>Potential New Clients Per Month:</strong> {potentialClientsMonthly}</p>
-        <p><strong>Monthly Revenue You're Missing:</strong> {formatCurrency(monthlyRevenue)}</p>
-        <p><strong>Annual Revenue You're Missing:</strong> {formatCurrency(yearlyRevenue)}</p>
-        <p><strong>First Month ROI:</strong> {firstMonthROI.toFixed(0)}%</p>
-        <p><strong>Ongoing Monthly ROI:</strong> {monthlyROI.toFixed(0)}%</p>
-        <p><strong>Yearly ROI:</strong> {yearlyROI.toFixed(0)}%</p>
+      <div className="bg-blue-50 p-6 rounded-lg shadow">
+        <h2 className="text-xl font-semibold text-blue-800 mb-4">📈 Your Results</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">Monthly Missed Calls</h4>
+            <p className="text-xl font-semibold text-blue-700">{monthlyCallsMissed}</p>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">Potential New Clients</h4>
+            <p className="text-xl font-semibold text-blue-700">{potentialClientsMonthly}</p>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">Monthly Revenue Missed</h4>
+            <p className="text-xl font-semibold text-green-700">{formatCurrency(monthlyRevenue)}</p>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">Annual Revenue Missed</h4>
+            <p className="text-xl font-semibold text-green-700">{formatCurrency(yearlyRevenue)}</p>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">First Month ROI</h4>
+            <p className={`text-xl font-semibold ${firstMonthROI >= 0 ? 'text-green-700' : 'text-red-600'}`}>{firstMonthROI.toFixed(0)}%</p>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">Monthly ROI</h4>
+            <p className={`text-xl font-semibold ${monthlyROI >= 0 ? 'text-green-700' : 'text-red-600'}`}>{monthlyROI.toFixed(0)}%</p>
+          </div>
+          <div className="bg-white p-4 rounded shadow">
+            <h4 className="text-sm text-gray-600">Yearly ROI</h4>
+            <p className={`text-xl font-semibold ${yearlyROI >= 0 ? 'text-green-700' : 'text-red-600'}`}>{yearlyROI.toFixed(0)}%</p>
+          </div>
+        </div>
       </div>
     </div>
   );
