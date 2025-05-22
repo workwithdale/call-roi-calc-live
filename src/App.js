@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 export default function App() {
-  const [missedCalls, setMissedCalls] = useState(15);
-  const [averageValue, setAverageValue] = useState(500);
-  const [conversionRate, setConversionRate] = useState(30);
-  const [servicePrice] = useState(597);
-  const [setupFee, setSetupFee] = useState(1497);
+  const [missedCalls, setMissedCalls] = useState("15");
+  const [averageValue, setAverageValue] = useState("500");
+  const [conversionRate, setConversionRate] = useState("30");
+  const [setupFee, setSetupFee] = useState("1497");
+  const servicePrice = 597;
 
   const [monthlyCallsMissed, setMonthlyCallsMissed] = useState(0);
   const [potentialClientsMonthly, setPotentialClientsMonthly] = useState(0);
@@ -18,20 +18,25 @@ export default function App() {
   const [netYearlyRevenue, setNetYearlyRevenue] = useState(0);
 
   useEffect(() => {
+    const m = parseFloat(missedCalls) || 0;
+    const a = parseFloat(averageValue) || 0;
+    const c = parseFloat(conversionRate) || 0;
+    const s = parseFloat(setupFee) || 0;
+
     const weeksPerMonth = 4.33;
-    const potentialCallsMonthly = missedCalls * weeksPerMonth;
-    const convertedCallsMonthly = potentialCallsMonthly * (conversionRate / 100);
-    const grossMonthlyRevenue = convertedCallsMonthly * averageValue;
+    const potentialCallsMonthly = m * weeksPerMonth;
+    const convertedCallsMonthly = potentialCallsMonthly * (c / 100);
+    const grossMonthlyRevenue = convertedCallsMonthly * a;
     const grossYearlyRevenue = grossMonthlyRevenue * 12;
 
-    const firstMonthCosts = servicePrice + setupFee;
+    const firstMonthCosts = servicePrice + s;
     const firstMonthNetRevenue = grossMonthlyRevenue - firstMonthCosts;
     const firstMonthROI = (firstMonthNetRevenue / firstMonthCosts) * 100;
 
     const ongoingMonthlyNet = grossMonthlyRevenue - servicePrice;
     const ongoingMonthlyROI = (ongoingMonthlyNet / servicePrice) * 100;
 
-    const firstYearCosts = (servicePrice * 12) + setupFee;
+    const firstYearCosts = (servicePrice * 12) + s;
     const firstYearNetRevenue = grossYearlyRevenue - firstYearCosts;
     const firstYearROI = (firstYearNetRevenue / firstYearCosts) * 100;
 
@@ -44,7 +49,7 @@ export default function App() {
     setMonthlyROI(ongoingMonthlyROI);
     setYearlyROI(firstYearROI);
     setFirstMonthROI(firstMonthROI);
-  }, [missedCalls, averageValue, conversionRate, servicePrice, setupFee]);
+  }, [missedCalls, averageValue, conversionRate, setupFee]);
 
   const formatCurrency = (value) =>
     new Intl.NumberFormat('en-US', {
@@ -53,6 +58,8 @@ export default function App() {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
+
+  const inputStyle = "w-full border px-3 py-2 rounded";
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 font-sans">
@@ -64,19 +71,43 @@ export default function App() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Missed Calls Per Week</label>
-            <input type="number" value={missedCalls} onChange={e => setMissedCalls(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+            <input
+              type="text"
+              inputMode="numeric"
+              value={missedCalls}
+              onChange={(e) => setMissedCalls(e.target.value)}
+              className={inputStyle}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Avg Value Per Customer ($)</label>
-            <input type="number" value={averageValue} onChange={e => setAverageValue(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+            <input
+              type="text"
+              inputMode="numeric"
+              value={averageValue}
+              onChange={(e) => setAverageValue(e.target.value)}
+              className={inputStyle}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Conversion Rate (%)</label>
-            <input type="number" value={conversionRate} onChange={e => setConversionRate(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+            <input
+              type="text"
+              inputMode="numeric"
+              value={conversionRate}
+              onChange={(e) => setConversionRate(e.target.value)}
+              className={inputStyle}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">One-Time Setup Fee ($)</label>
-            <input type="number" value={setupFee} onChange={e => setSetupFee(+e.target.value)} className="w-full border px-3 py-2 rounded" />
+            <input
+              type="text"
+              inputMode="numeric"
+              value={setupFee}
+              onChange={(e) => setSetupFee(e.target.value)}
+              className={inputStyle}
+            />
           </div>
         </div>
       </div>
