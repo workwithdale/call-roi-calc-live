@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Help Desk ROI Calculator</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<style>
+  .pdf-only { display: none; }
+  .screen-only { display: block; }
+  @media print {
+    .pdf-only { display: block !important; }
+    .screen-only { display: none !important; }
+  }
+</style>
 </head>
 <body class="bg-gray-50">
   <div id="root"></div>
