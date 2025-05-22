@@ -81,6 +81,7 @@ export default function App() {
   };
 
   const inputStyle = "w-full border px-3 py-2 rounded";
+  const valueBoxStyle = "w-full border px-3 py-2 rounded bg-gray-100";
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 font-sans">
@@ -91,29 +92,44 @@ export default function App() {
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold text-blue-700 mb-4">📊 Enter Your Info</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Missed Calls Per Week</label>
-              <input type="text" inputMode="numeric" value={missedCalls} onChange={e => setMissedCalls(e.target.value)} className={inputStyle} />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Avg Value Per Customer ($)</label>
-              <input type="text" inputMode="numeric" value={averageValue} onChange={e => setAverageValue(e.target.value)} className={inputStyle} />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Conversion Rate (%)</label>
-              <input type="text" inputMode="numeric" value={conversionRate} onChange={e => setConversionRate(e.target.value)} className={inputStyle} />
-            </div>
+            {[
+              { label: "Missed Calls Per Week", value: missedCalls, onChange: setMissedCalls },
+              { label: "Avg Value Per Customer ($)", value: averageValue, onChange: setAverageValue },
+              { label: "Conversion Rate (%)", value: conversionRate, onChange: setConversionRate },
+            ].map(({ label, value, onChange }) => (
+              <div key={label}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                <div className="screen-only">
+                  <input type="text" inputMode="numeric" value={value} onChange={e => onChange(e.target.value)} className={inputStyle} />
+                </div>
+                <div className="pdf-only">
+                  <div className={valueBoxStyle}>{value}</div>
+                </div>
+              </div>
+            ))}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Monthly Subscription</label>
-              <select value={monthlyPrice} onChange={e => setMonthlyPrice(e.target.value)} className={inputStyle}>
-                {["97","197","297","397","497","597","697","797","897","997","1097"].map(p => (
-                  <option key={p} value={p}>${p}</option>
-                ))}
-              </select>
+              <div className="screen-only">
+                <select value={monthlyPrice} onChange={e => setMonthlyPrice(e.target.value)} className={inputStyle}>
+                  {["97","197","297","397","497","597","697","797","897","997","1097"].map(p => (
+                    <option key={p} value={p}>${p}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="pdf-only">
+                <div className={valueBoxStyle}>${monthlyPrice}</div>
+              </div>
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">One-Time Setup Fee ($)</label>
-              <input type="text" inputMode="numeric" value={setupFee} onChange={e => setSetupFee(e.target.value)} className={inputStyle} />
+              <div className="screen-only">
+                <input type="text" inputMode="numeric" value={setupFee} onChange={e => setSetupFee(e.target.value)} className={inputStyle} />
+              </div>
+              <div className="pdf-only">
+                <div className={valueBoxStyle}>{setupFee}</div>
+              </div>
             </div>
           </div>
         </div>
