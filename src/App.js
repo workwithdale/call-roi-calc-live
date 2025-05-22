@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 export default function App() {
   const [missedCalls, setMissedCalls] = useState("15");
@@ -65,20 +63,6 @@ export default function App() {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
-
-  const handleDownloadPDF = async () => {
-    const report = document.getElementById('report');
-    if (!report) return;
-    const canvas = await html2canvas(report, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'pt',
-      format: [canvas.width, canvas.height]
-    });
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save('AI-ROI-Report.pdf');
-  };
 
   const inputStyle = "w-full border px-3 py-2 rounded";
   const valueBoxStyle = "w-full border px-3 py-2 rounded bg-gray-100";
@@ -149,11 +133,6 @@ export default function App() {
         </div>
       </div>
 
-      <div className="text-center mt-6">
-        <button onClick={handleDownloadPDF} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-          📄 Download ROI Report (PDF)
-        </button>
-      </div>
     </div>
   );
 }
